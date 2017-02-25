@@ -1,3 +1,8 @@
+;; update the Writing Style (at the end of this file)
+;; (say-something NEW-WS)
+;;
+
+
 (define sample (list (cons 'green 2) (cons 'red 5) ))
 (define (get lst x)
   (cond
