@@ -2,8 +2,11 @@
 ;; (say-something NEW-WS)
 ;;
 
+;; version 3: markov machine memory 3
+
 
 (define sample (list (cons 'green 2) (cons 'red 5) ))
+
 (define (get lst x)
   (cond
     [(empty? lst) #false]
@@ -70,16 +73,16 @@
               100)
 
 (define STYLE
-  (list (cons "am" (list (cons "great" 1) (cons "i" 1)))
-        (cons "how" (list (cons "am" 1) (cons "are" 1)))))
+  (list (cons (list "i" "am" "here") (list (cons "great" 1) (cons "i" 1)))
+        (cons (list "how" "is" "that") (list (cons "am" 1) (cons "are" 1)))))
 
 (define (string-upcase? str)
   (char-upper-case? (first (string->list str))))
 
-(define (add-to-ws ws word1 word2)
+(define (add-to-ws ws word1 word2 word3 word4)
   (define (update-values current-val)
-    (update current-val word2 add1 1))
-  (update ws word1 update-values (list (cons word2 1))))
+    (update current-val word4 add1 1))
+  (update ws (list word1 word2 word3) update-values (list (cons word4 1))))
 
 (define DIALG
   (list
@@ -119,28 +122,54 @@
   (define l (string-length word))
   (substring word 0 (- l 1)))
 
-(define (add-to-ws2 ws word1 word2)
+(define (add-to-ws2 ws word1 word2 word3 word4)
   (cond
    [(end? word1)
     (local
      [(define word1d (dedot word1))]
-     (foldl (lambda (w1 w2 ws) (add-to-ws ws w1 w2))
-            ws (list word1d " ")
-            (list "." word2)))]
+     (foldl (lambda (w1 w2 w3 w4 ws) (add-to-ws ws w1 w2 w3 w4))
+            ws
+            (list word1d "." " ")
+            (list "." " " word2)
+            (list " " word2 word3)
+            (list word2 word3 word4)))]
    [(end? word2)
     (local
      [(define word2d (dedot word2))]
-     (foldr (lambda (w1 w2 ws) (add-to-ws ws w1 w2))
-           ws (list word1 word2d) (list word2d ".")))]
-   [else (add-to-ws ws word1 word2)]))
+     (foldr (lambda (w1 w2 w3 w4 ws) (add-to-ws ws w1 w2 w3 w4))
+           ws
+           (list word1 word2d ".")
+           (list word2d "." " ")
+           (list "." " " word3)
+           (list " " word3 word4)))]
+   [(end? word3)
+    (local
+     [(define word3d (dedot word3))]
+     (foldr (lambda (w1 w2 w3 w4 ws) (add-to-ws ws w1 w2 w3 w4))
+            ws
+            (list word1 word2 word3)
+            (list word2 word3 ".")
+            (list word3 "." " ")
+            (list "." " " word4)))]
+   [else (add-to-ws ws word1 word2 word3 word4)]))
 
 (define (update-ws ws lst)
-  (foldr (lambda (word1 word2 ws) (add-to-ws ws word1 word2))
-         ws (drop-right lst 1) (rest lst)))
+  (foldr (lambda (word1 word2 word3 word4 ws)
+           (add-to-ws ws word1 word2 word3 word4))
+         ws
+         (drop-right lst 3)
+         (drop-right (drop lst 1) 2)
+         (drop-right (drop lst 2) 1)
+         (drop lst 3)))
 
 (define (update-ws2 ws lst)
-  (foldr (lambda (word1 word2 ws) (add-to-ws2 ws word1 word2))
-         ws (drop-right lst 1) (rest lst)))
+  (foldr (lambda (word1 word2 word3 word4 ws)
+           (add-to-ws2 ws word1 word2 word3 word4))
+         ws
+         (drop-right lst 3)
+         (drop-right (drop lst 1) 2)
+         (drop-right (drop lst 2) 1)
+         (drop lst 3)))
 
 
 (require "csv.rkt")
@@ -150,19 +179,23 @@
   (close-output-port out))
 
 ;(define (say-something ws)
-  (define (next-word ws word1)
+  (define (next-word ws word1 word2 word3)
     (cond
-     [(equal? word1 ".") '()]
+     [(equal? word3 ".") '()]
      [else
       (local
-       [(define rule (get ws word1))
-        (define word2 (grab-random rule))]
+       [(define rule (get ws (list word1 word2 word3)))
+        (define word4 (grab-random rule))]
       ; (out-data "test" (list (list word2)))
-       (cons word2 (next-word ws word2)))]))
+       (cons word4 (next-word ws word2 word3 word4)))]))
 ; (next-word ws " "))
 
-(define (say-something ws)
-  (string-join (next-word ws " ")))
+;(define (say-something ws)
+;  (string-join (next-word ws "." " ")))
+
+(define (begin-sentence? x)
+  (equal? (rest x) (list "." " ")))
+
 
 (require 2htdp/batch-io)
 
@@ -173,9 +206,28 @@
 ;(define game (read-words "game"))
 ;(define NEW (update-ws2 STYLE game))
 ;(define input (read-words "sample2"))
-;(define THORN (read-words "thorn"))
-;(define NEW (update-ws2 STYLE input))
-;(define NEW2 (update-ws NEW THORN))
+(define THORN (read-words "thorn"))
+;(define NEW2 (update-ws2 STYLE input))
+(define NEW (update-ws2 STYLE THORN))
+
+(define sentence-opener
+  (filter begin-sentence? (map first NEW)))
+
+(define (random-mem x)
+  (list-ref x (random (length x))))
+
+;(define ice-breaker
+;  (random-mem sentence-opener))
+
+(define (say-something ws)
+  (define ice-breaker
+    (random-mem sentence-opener))
+  (string-join (apply next-word
+                      (append (cons ws ice-breaker)))))
+
+
+
+
 
 
 ;; version 2: markov machine but memory 2

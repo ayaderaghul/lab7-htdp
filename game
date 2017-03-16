@@ -1,0 +1,73 @@
+We show that subgame-perfect
+equilibria
+of infinite-horizon
+games arise as limits,
+as the horizon
+grows long and epsilon small, of subgame-perfect
+epsilon-equilibria
+of games which are truncated
+after a finite horizon. A number of applications
+show
+that this result provides
+a useful technique
+for analyzing
+the existence
+and
+uniqueness
+of infinite-horizon
+equilibria.
+We extend our result to the sequential
+equilibrium
+concept.
+
+This paper explores the fundamental problem of what can be inferred about the
+outcome of a noncooperative game, from the rationality of the players and from the
+information they possess. The answer is summarized in a solution concept called ratio-
+nalizability. Strategy profiles that are rationalizable are not always Nash equilibria;
+conversely, the information in an extensive form game often allows certain "unreasonable"
+Nash equilibria to be excluded from the set of rationalizable profiles. A stronger form of
+rationalizability is appropriate if players are known to be not merely "rational" but also
+"cautious."
+Correlated equilibrium is formulated in a manner that does away with the dichotomy
+usually perceived between the "Bayesian" and the "game-theoretic" view of the world.
+From the Bayesian viewpoint, probabilities should be assignable to everything, including
+the prospect of a player choosing a certain strategy in a certain game. The so-called
+"game-theoretic" viewpoint holds that probabilities can only be assigned to events not
+governed by rational decision makers; for the latter, one must substitute an equilibrium
+(or other game-theoretic) notion. The current formulation synthesizes the two viewpoints:
+Correlated equilibrium is viewed as the result of Bayesian rationality; the equilibrium
+condition appears as a simple maximization of utility on the part of each player, given his
+information.
+A feature of this approach is that it does not require explicit randomization on the part
+of the players. Each player always chooses a definite pure strategy, with no attempt to
+randomize; the probabilistic nature of the strategies reflects the uncertainty of other players
+about his choice. Examples are given.
+This paper investigates when patent races will be characterized by vigorous competition and
+when they will degenerate into a monopoly. Under some conditions, a firm with an arbitrarily
+small headstart can preempt its rivals. Such ‘s-preemption’ is shown to depend on whether a
+lirm that is behind in the patent race, as measured by the expected time remaining until
+discovery, can ‘leapfrog’ the competition and become the new leader. An example of an R&D
+game with random discovery illustrates how s-preemption can occur when leapfrogging is
+impossible. A multi-stage R&D process allows leapfrogging and thus permits competition. A
+similar conclusion emerges in a model of a deterministic patent race with imperfect monitoring
+of rival firms’ R&D investment activities.
+The paper proposes a Bayesian approach to selecting a particular equilibrium point s* of
+any given finite n-person noncooperative game F as solution for F. It is assumed that each player i
+starts his analysis o f the game situation by assigning a subjective prior probability distribution pj to
+the set of all pure strategies available to each other player/. (The prior distributions pj used by all
+other players i in assessing the likely strategy choice of any given player/will be identical, because
+all these players i will compute this prior distribution pj from the basic parameters of game I" in the
+same way.) Then, the players are assumed to modify their subjective probability distributions PJ
+o v e r each other's pure strategies systematically in a continuous manner until all of these probability
+distributions will converge, in an appropriate sense, to a specific equilibrium point s* o f F, which,
+then, will be accepted as solution.
+A mathematical procedure, to be called the tracing procedure, is proposed to provide a mathe-
+matical representation for this intellectual process of convergent expectations. Two variants of this
+procedure are described. One, to be called the linear tracing procedure, is shown to define a unique
+solution in "almost all" cases but not quite in all cases. The other variant, to be callcd the
+logarithmic" tracing procedure, always defines a unique solution in all possible cases. Moreover, in all
+cases where the linear procedure yields a unique solution at all, both procedures always yield the
+same solution. For any given game F, the solution obtained in this way heavily depends on the
+prior probability distributions P l , 9 9 -, Pn used as a starting point for the tracing procedure. In the
+last section, the results o f the tracing procedure are given for a simple class of two-person variablc-
+sum games, in numerical detail.
