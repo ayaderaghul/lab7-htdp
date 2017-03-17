@@ -124,7 +124,7 @@
    [(end? word1)
     (local
      [(define word1d (dedot word1))]
-     (foldl (lambda (w1 w2 ws) (add-to-ws ws w1 w2))
+     (foldr (lambda (w1 w2 ws) (add-to-ws ws w1 w2))
             ws (list word1d " ")
             (list "." word2)))]
    [(end? word2)
@@ -134,6 +134,22 @@
            ws (list word1 word2d) (list word2d ".")))]
    [else (add-to-ws ws word1 word2)]))
 
+(define (add-to-ws-in-reverse ws word1 word2)
+  (cond
+   [(end? word1) ; take them. -> them. take -> .them take
+    (local
+     [(define word1d (dedot word1))]
+     (foldr (lambda (w1 w2 ws) (add-to-ws ws w1 w2))
+            ws (list "." word1d)
+            (list word1d word2)))]
+   [(end? word2) ; end. The -> The end. -> The .end
+    (local
+     [(define word2d (dedot word2))]
+     (foldr (lambda (w1 w2 ws) (add-to-ws ws w1 w2))
+            ws (list word1 ".")
+            (list " " word2d)))]
+   [else (add-to-ws ws word1 word2)]))
+
 (define (update-ws ws lst)
   (foldr (lambda (word1 word2 ws) (add-to-ws ws word1 word2))
          ws (drop-right lst 1) (rest lst)))
@@ -141,6 +157,11 @@
 (define (update-ws2 ws lst)
   (foldr (lambda (word1 word2 ws) (add-to-ws2 ws word1 word2))
          ws (drop-right lst 1) (rest lst)))
+
+(define (update-ws-in-reverse ws lst)
+  (foldr (lambda (word1 word2 ws) (add-to-ws-in-reverse ws word1 word2))
+         ws (drop-right lst 1)
+         (rest lst)))
 
 
 (require "csv.rkt")
@@ -161,8 +182,21 @@
        (cons word2 (next-word ws word2)))]))
 ; (next-word ws " "))
 
+(define (previous-word ws word1)
+  (cond
+   [(equal? word1 " ") '()]
+   [else
+    (local
+     [(define rule (get ws word1))
+      (define word2 (grab-random rule))]
+     (cons word2 (previous-word ws word2)))]))
+
+
 (define (say-something ws)
   (string-join (next-word ws " ")))
+
+(define (say-something-in-reverse ws)
+  (string-join (reverse (previous-word ws "."))))
 
 (require 2htdp/batch-io)
 
@@ -172,10 +206,17 @@
 
 ;(define game (read-words "game"))
 ;(define NEW (update-ws2 STYLE game))
-;(define input (read-words "sample2"))
+(define input (read-words "sample2"))
 ;(define THORN (read-words "thorn"))
-;(define NEW (update-ws2 STYLE input))
+(define NEW (update-ws2 STYLE input))
+(define NEWR (update-ws-in-reverse STYLE (reverse input)))
 ;(define NEW2 (update-ws NEW THORN))
 
+(define (say-something-about keyword)
+  (string-join
+   (append
+    (reverse (previous-word NEWR keyword))
+    (list keyword)
+    (next-word NEW keyword))))
 
 ;; version 2: markov machine but memory 2

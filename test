@@ -43,3 +43,21 @@ overbearing
 "She lived almost isolated in an abstract, motionless world. ."
 
 
+
+> (say-something-about "day")
+"  He saw the day had a start, he had walked proudly uphill ."
+> (say-something-about "life")
+"  He did not bear to have to keep his consciousness, he could relapse into life ."
+> (say-something-about "neutrality")
+"  He felt was merely impersonal, though a hot flash passed through his neutrality as the little uneasiness took pleasure ."
+> (say-something-about "real")
+"  The hands lying broken fragment hung livid round to faint--he did not bear it was less real than the pain in his heart ."
+
+> (say-something-about "you")
+"  \"Are you a noise ."
+> (say-something-about "earth")
+"  There was himself, he was there, a whole earth ."
+
+
+
+
